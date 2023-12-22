@@ -32,24 +32,21 @@ const items = [
     getItem('DS Bài đăng đã duyệt', 'approved_post'),
     getItem('DS Bài đăng đã từ chối', 'rejected_post'),
   ]),
-  getItem('Gói dịch vụ', 'package', <GiftOutlined />),
-  getItem('Mã giảm giá', 'voucher', <ContainerOutlined />),
 
-  getItem('Tố cáo', 'sub2', <WarningOutlined />, [
-    getItem('DS Tố cáo chờ duyệt', 'pending_reporting'),
-    getItem('DS Tố cáo đã duyệt', 'approved_reporting'),
+  getItem('Quản lý tố cáo', 'sub2', <WarningOutlined />, [
+    getItem('Tố cáo bài đăng', 'post_reporting'),
+    getItem('Tố cáo người dùng', 'user_reporting'),
     //getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
   ]),
 
-  getItem('Người dùng', 'sub3', <UserOutlined />, [
-    getItem('DS Người dùng', 'user'),
-    getItem('DS ND chờ xác minh', 'pending_user'),
-    getItem('DS ND đã xác minh', 'verificated_user'),
+  getItem('Quản lý người dùng', 'sub3', <UserOutlined />, [
+    getItem('Tất cả', 'user'),
+    getItem('Chờ  xác minh', 'pending_user'),
+    getItem('Đã xác minh', 'verificated_user'),
     //getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
   ]),
 
-  getItem('Blog', 'blog', <ReadOutlined />),
-  getItem('Nhà đầu tư', 'developer', <ReadOutlined />),
+  getItem('Blog', 'blogs', <ReadOutlined />),
 ];
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);

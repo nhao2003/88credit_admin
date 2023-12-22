@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://172.30.48.1:8000/api/v1/admin';
+const baseURL = 'http://localhost:8000/api/v1/admin';
 
 const API_BASE_URL = baseURL; // Replace with your API base URL
 

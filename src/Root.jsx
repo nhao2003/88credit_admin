@@ -6,8 +6,9 @@ import {
   useNavigation,
 } from 'react-router-dom';
 import SideBar from './globalComponents/SideBar/SideBar';
-import { Button, ConfigProvider, Flex, Space, Spin } from 'antd';
+import { ConfigProvider } from 'antd';
 import './Root.css';
+import { Loading } from './globalComponents/Loading/Loading';
 const Root = () => {
   const navigation = useNavigation();
   return (
@@ -27,20 +28,7 @@ const Root = () => {
         <div className="SideMenuAndPageContent">
           <SideBar />
           <div className="PageContent">
-            {navigation.state === 'loading' ? (
-              <Flex
-                style={{
-                  height: '100vh',
-                  width: '100%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Spin size="large" />
-              </Flex>
-            ) : (
-              <Outlet />
-            )}
+            {navigation.state === 'loading' ? <Loading /> : <Outlet />}
           </div>
         </div>
       </div>

@@ -93,3 +93,29 @@ export async function action({ request, params }){
         }
       }
 }
+
+export function updateReportStatus(id, type) {
+  if (['resolved', 'reject'].indexOf(type) === -1)
+    throw new Error('Invalid type');
+  const apiUrl = `reports/${id}`;
+  const data = {
+    status: type,
+  };
+  return ApiService.patch(apiUrl, data);
+}
+
+export function deletePost(id) {
+  const apiUrl = `posts/delete?id=${id}`;
+  return ApiService.patch(apiUrl);
+}
+
+export function banUser(id) {
+  const apiUrl = `users/${id}/ban`;
+  return ApiService.patch(apiUrl);
+}
+
+export function unbanUser(id) {
+  const apiUrl = `users/${id}/unban`;
+  return ApiService.patch(apiUrl);
+}
+

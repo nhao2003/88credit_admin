@@ -6,28 +6,27 @@ import {
   Col,
   Typography,
   Button,
-  Select,
-  Table,
   Space,
   Input,
+  Modal,
 } from 'antd';
 import Search from 'antd/es/input/Search';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import {
   useNavigate,
   useLoaderData,
   useFetcher,
-  Form,
-  redirect,
 } from 'react-router-dom';
 import PostTable from '../components/TableOfPost';
 import ApiService from '../../../service/ApiService';
 import Breadcrumbs from '../../../globalComponents/BreadCrumb/BreadCrumb';
-import moment from 'moment';
 import { borrowingColumns, lendingColumns } from '../components/tableColumn';
+import { approvePost, rejectPost } from '../action';
 //function loader to call API
 export async function loader() {
-  const response = await ApiService.get("posts?post_status[eq]='approved'");
+  const response = await ApiService.get(
+    "posts?post_status[eq]='approved'&page=all",
+  );
   const posts = response.result;
   console.log('length', posts.length);
   if (!posts) {
@@ -46,14 +45,16 @@ export async function loader() {
 function ApprovedPost(props) {
   const navigate = useNavigate();
   const { Title } = Typography;
-  const { postLending, postBorrowing } = useLoaderData();
+  const { postLending: pLending, postBorrowing } = useLoaderData();
+  const [postsLending, setPostsLending] = useState(pLending);
+  const [postsBorrowing, setPostsBorrowing] = useState(postBorrowing);
   const fetcher = useFetcher();
   const actionColumn = {
     title: 'Hành động',
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <fetcher.Form method="post">
+        {/* <fetcher.Form method="post">
           <Button
             onClick={(e) => {
               e.stopPropagation();
@@ -66,11 +67,12 @@ function ApprovedPost(props) {
             Duyệt
           </Button>
           <input type="hidden" name="type" value="approve" />
-        </fetcher.Form>
+        </fetcher.Form> */}
         <fetcher.Form method="post">
           <Button
             onClick={(e) => {
               e.stopPropagation();
+              showModal(record);
             }}
             type="primary"
             danger
@@ -92,7 +94,7 @@ function ApprovedPost(props) {
       children: (
         <PostTable
           columns={[...lendingColumns, actionColumn]}
-          data={postLending}
+          data={postsLending}
         />
       ),
     },
@@ -102,11 +104,58 @@ function ApprovedPost(props) {
       children: (
         <PostTable
           columns={[...borrowingColumns, actionColumn]}
-          data={postBorrowing}
+          data={postsBorrowing}
         />
       ),
     },
   ];
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = (post) => {
+    setIsModalVisible(true);
+    setCurrentPost(post);
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleOk() {
+    setIsModalVisible(false);
+    handleRejectPost();
+  }
+
+  function handleCancel() {
+    setIsModalVisible(false);
+    setCurrentPost(null);
+    setRejectReason(null);
+  }
+  function handleRejectPost() {
+    // rejectPost
+    rejectPost(currentPost.id, rejectReason)
+      .then((res) => {
+        if (res) {
+          setIsModalVisible(false);
+          setRejectReason(null);
+          setCurrentPost(null);
+          console.log('res', currentPost);
+          if (currentPost.type === 'lending') {
+            setPostsLending(
+              postsLending.filter((post) => post.id !== currentPost.id),
+            );
+          } else {
+            console.log('no lease');
+            setPostsBorrowing(
+              postsBorrowing.filter((post) => post.id !== currentPost.id),
+            );
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('Có lỗi xảy ra, vui lòng thử lại sau');
+      });
+  }
+  const [currentPost, setCurrentPost] = useState(null);
+  const [rejectReason, setRejectReason] = useState(null);
+
   return (
     <div>
       <Card>
@@ -130,7 +179,18 @@ function ApprovedPost(props) {
             />
           </Col>
         </Row>
-
+        <Modal
+          title="Vui lòng nhập lý do từ chối bài đăng này"
+          open={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <Input
+            placeholder="Nhập lý do từ chối..."
+            value={rejectReason}
+            onChange={(e) => setRejectReason(e.target.value)}
+          />
+        </Modal>
         <Tabs defaultActiveKey="1" items={tabs} />
       </Card>
     </div>

@@ -25,7 +25,9 @@ export async function action({ request, params }){
     if (type === "reject"){
       try{
         console.log("reject request")
-        const result =  await ApiService.post({url:`posts/reject?id=${id}`, data:{}});
+        const result =  await ApiService.post({url:`reject-post/${id}`, data:{
+          rejected_reason: data.get("rejected_reason")
+        }});
         console.log("rejected results", result)
         if(result.status == "success"){
           alert("reject success")
@@ -56,4 +58,14 @@ export async function action({ request, params }){
         return null;
       }
     }
+}
+
+export function rejectPost(id, reason){
+  return ApiService.patch({url:`reject-post/${id}`, data:{
+    rejected_reason: reason
+  }})
+}
+
+export function approvePost(id){
+  return ApiService.patch({url:`approve-post/${id}`, data:{}})
 }

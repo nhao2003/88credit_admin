@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  AppstoreOutlined,
-  ContainerOutlined,
-  DesktopOutlined,
-  MailOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
   FormOutlined,
   UserOutlined,
   WarningOutlined,
-  GiftOutlined,
   ReadOutlined,
 } from '@ant-design/icons';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Menu } from 'antd';
 import style from './SideBar.module.css';
 function getItem(label, key, icon, children, type) {
@@ -26,7 +21,7 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items = [
-  getItem('Dashboard', 'dashboard', <PieChartOutlined />),
+  getItem('Dashboard', '', <PieChartOutlined />),
   getItem('Bài đăng', 'post', <FormOutlined />, [
     getItem('DS Bài đăng chờ duyệt', 'pending_post'),
     getItem('DS Bài đăng đã duyệt', 'approved_post'),

@@ -3,7 +3,9 @@ import * as ReactDOM from 'react-dom/client';
 import ErrorPage from './error-page';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 //main route here
-import DashBoard from './modules/dashboard/dashboard';
+import DashBoard, {
+  loader as dashboardLoader,
+} from './modules/dashboard/DashBoard';
 import PendingPost, {
   loader as pendingPostLoader,
 } from './modules/post/screens/PendingPost';
@@ -45,6 +47,7 @@ import AddNewPage from './modules/blog/screens/AddNewPage';
 import EditBlog, {
   loader as EditBlogLoader,
 } from './modules/blog/screens/BlogEdit';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -56,10 +59,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <DashBoard />,
-          },
-          {
-            path: 'dashboard',
-            element: <DashBoard />,
+            loader: dashboardLoader,
           },
           {
             path: 'pending_post',

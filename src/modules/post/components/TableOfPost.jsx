@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { CloseOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
-import PostDialog from './postDialog';
+import PostDialog from '../../../globalComponents/Dialog/postDialog';
 function PostTable(props) {
   const { Title } = Typography;
   const navigate = useNavigate();

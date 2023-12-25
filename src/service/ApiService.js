@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8000/api/v1/admin';
-
-const API_BASE_URL = baseURL; // Replace with your API base URL
+const isProduction = true; // Change this to true when you are ready to deploy
+const devURL = 'http://localhost:8000/api/v1/admin';
+const prodURL = 'https://eight8credit.onrender.com/api/v1/admin';
+const API_BASE_URL = isProduction ? prodURL : devURL;
 
 // Creating an instance of Axios with custom configuration
 const api = axios.create({

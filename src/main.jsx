@@ -1,7 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import ErrorPage from './error-page';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+// Protect routes
+
+import { createBrowserRouter, RouterProvider, Routes } from 'react-router-dom';
 //main route here
 import DashBoard, {
   loader as dashboardLoader,
@@ -47,7 +50,13 @@ import AddNewPage from './modules/blog/screens/AddNewPage';
 import EditBlog, {
   loader as EditBlogLoader,
 } from './modules/blog/screens/BlogEdit';
+import { Route } from 'react-router-dom';
 
+import ContractTemplatePage from './modules/contract_template/screens/ContractTemplatePage';
+import ContractTemplatePageDetail from './modules/contract_template/screens/ContractTemplatePageDetail';
+import AddNewContractTemplate from './modules/contract_template/screens/AddNewContractTemplate';
+import ContractTemplateEdit from './modules/contract_template/screens/ContractTemplateEdit';
+import LoginPage from './modules/login/LoginPage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -56,6 +65,10 @@ const router = createBrowserRouter([
     children: [
       {
         children: [
+          {
+            path: '/login',
+            element: <LoginPage />,
+          },
           {
             index: true,
             element: <DashBoard />,
@@ -165,14 +178,51 @@ const router = createBrowserRouter([
             loader: developerLoader,
             action: developerAction,
           },
+
+          {
+            path: 'contract_template',
+            element: <ContractTemplatePage />,
+            loader: blogLoader,
+            action: blogAction,
+          },
+          {
+            path: 'contract_template/:id',
+            element: <ContractTemplatePageDetail />,
+            loader: blogDetailLoader,
+            action: blogAction,
+          },
+          {
+            path: 'contract_template/add',
+            element: <AddNewContractTemplate />,
+            action: blogAction,
+          },
+          {
+            path: 'contract_template/edit/:id',
+            element: <ContractTemplateEdit />,
+            loader: EditBlogLoader,
+            action: blogAction,
+          },
         ],
       },
     ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-);
+
+const App = () => {
+  return (
+    <React.StrictMode>
+      {
+       sessionStorage.getItem('token') ? (
+          <RouterProvider router={router}>
+            <Routes />
+          </RouterProvider>
+        ) : (
+          <LoginPage />
+        )
+      }
+    </React.StrictMode>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);

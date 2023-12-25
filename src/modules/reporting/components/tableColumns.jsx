@@ -17,12 +17,6 @@ export default [
       key: 'description',
     },
     {
-      title: 'Tên bài đăng bị tố cáo',
-      dataIndex: 'reported',
-      key: 'reported',
-      render: (user) => user.title,
-    },
-    {
       title: 'Ngày tạo',
       dataIndex: 'created_date',
       key: 'created_date',

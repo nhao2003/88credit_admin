@@ -21,6 +21,7 @@ function PostDialog(props) {
   const isModalOpen = props.isModalOpen;
   const handleOk = props.handleOk;
   const handleCancel = props.handleCancel;
+  console.log('PostDialog: ', item);
   return (
     <Modal
       title={item.title}
@@ -40,14 +41,14 @@ function PostDialog(props) {
           <Typography.Text>{item.id}</Typography.Text>
         </Form.Item>
 
-        <Form.Item label="Người đăng">
-          {/* <Input
-              value={`${item.user.first_name} ${item.user.last_name}`}
-            /> */}
-          <Typography.Text>
-            {`${item.user.first_name} ${item.user.last_name}`}
-          </Typography.Text>
-        </Form.Item>
+        {
+          item.user &&
+          <Form.Item label="Người đăng">
+            <Typography.Text>
+              {`${item.user.first_name} ${item.user.last_name}`}
+            </Typography.Text>
+          </Form.Item>
+        }
 
         <Form.Item label="Ngày đăng">
           <Typography.Text>

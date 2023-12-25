@@ -17,8 +17,7 @@ import { Form } from 'react-router-dom';
 const { TextArea } = Input;
 const { Title } = Typography;
 import Breadcrumbs from '../../../globalComponents/BreadCrumb/BreadCrumb';
-import HtmlContent from '../components/HtmlContent';
-import Preview from '../components/Preview';
+import Preview from '../../../globalComponents/Blog/Preview';
 function AddNewPage() {
   const [html, setHtml] = useState('');
   const [title, setTitle] = useState('');

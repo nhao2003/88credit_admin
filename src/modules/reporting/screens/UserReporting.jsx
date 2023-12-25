@@ -8,11 +8,11 @@ import tableColumns from '../components/tableColumns';
 import { Loading } from '../../../globalComponents/Loading/Loading';
 import { useState, useEffect } from 'react';
 const resolvedUserReportUrl =
-  "reports?page=1&type[eq]='user'&status[eq]='resolved'";
+  "reports?page=all&type[eq]='user'&status[eq]='resolved'";
 const pendingUserReportUrl =
-  "reports?page=1&type[eq]='user'&status[eq]='pending'";
+  "reports?page=all&type[eq]='user'&status[eq]='pending'";
 const rejectedUserReportUrl =
-  "reports?page=1&type[eq]='user'&status[eq]='rejected'";
+  "reports?page=all&type[eq]='user'&status[eq]='rejected'";
 const fetchReport = async (apiUrl) => {
   const response = await ApiService.get(apiUrl);
   const reports = response.result;

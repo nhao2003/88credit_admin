@@ -8,12 +8,13 @@ import tableColumns from '../components/tableColumns';
 import { Loading } from '../../../globalComponents/Loading/Loading';
 import { useState, useEffect } from 'react';
 import { deletePost, updateReportStatus } from '../action';
+import PostDialog from '../../../globalComponents/Dialog/postDialog';
 const resolvedUserReportUrl =
-  "reports?page=1&type[eq]='post'&status[eq]='resolved'";
+  "reports?page=all&type[eq]='post'&status[eq]='resolved'";
 const pendingUserReportUrl =
-  "reports?page=1&type[eq]='post'&status[eq]='pending'";
+  "reports?page=all&type[eq]='post'&status[eq]='pending'";
 const rejectedUserReportUrl =
-  "reports?page=1&type[eq]='post'&status[eq]='rejected'";
+  "reports?page=all&type[eq]='post'&status[eq]='rejected'";
 const fetchReport = async (apiUrl) => {
   const response = await ApiService.get(apiUrl);
   const reports = response.result;
@@ -57,17 +58,46 @@ function PostReporting(props) {
   const columns = [
     ...tableColumns,
     {
+      title: 'Bài đăng',
+      dataIndex: 'reported',
+      key: 'reported',
+      render: (reported) => (
+        <Typography.Text
+          style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '200px',
+            display: 'block',
+            color: 'blue',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+          }}
+          onClick={(e) => {
+            onRowHandler(reported);
+            e.stopPropagation();
+          }}
+        >
+          {reported?.title?.toString() ?? ''}
+        </Typography.Text>
+      ),
+    },
+    {
       title: 'Hành động',
       key: 'action',
       render: (_, record) =>
         loadings[record.id] ? (
-          <Loading />
+          <Loading height='100%' width='100%'  />
         ) : (
           <Space size="middle">
-            <Button loading={isLoading} onClick={(e) => {
-              e.stopPropagation();
-              handleReportAction(record.id, record.reported.id, 'resolved');
-            }} type="primary">
+            <Button
+              loading={isLoading}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleReportAction(record.id, record.reported.id, 'resolved');
+              }}
+              type="primary"
+            >
               Duyệt
             </Button>
             <Button
@@ -158,6 +188,21 @@ function PostReporting(props) {
     onTabClick(activeTab);
   }, []); // Empty dependency array ensures it runs only once on mount
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [item, setItem] = useState(null);
+  const onRowHandler = (record) => {
+    setIsModalOpen(true);
+    setItem(record);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+    setItem(null);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setItem(null);
+  };
+
   return (
     <div>
       <Card>
@@ -181,6 +226,14 @@ function PostReporting(props) {
             />
           </Col>
         </Row>
+        {item !== null && (
+          <PostDialog
+            post={item}
+            isModalOpen={isModalOpen}
+            handleOk = {handleOk}
+            handleCancel = {handleCancel}
+          />
+        )}
         <Tabs
           defaultActiveKey="1"
           items={tabs}

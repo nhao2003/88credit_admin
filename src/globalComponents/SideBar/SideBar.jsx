@@ -42,6 +42,7 @@ const items = [
   ]),
 
   getItem('Blog', 'blogs', <ReadOutlined />),
+  // getItem('Mẫu hợp đồng', 'contract_template', <ReadOutlined />),
 ];
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);

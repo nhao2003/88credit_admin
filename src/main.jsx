@@ -71,6 +71,7 @@ const router = createBrowserRouter([
           },
           {
             index: true,
+            path: '/',
             element: <DashBoard />,
             loader: dashboardLoader,
           },
@@ -213,7 +214,7 @@ const App = () => {
   return (
     <React.StrictMode>
       {
-       sessionStorage.getItem('token') ? (
+       localStorage.getItem('token') ==='1234567890' ? (
           <RouterProvider router={router}>
             <Routes />
           </RouterProvider>

@@ -13,7 +13,6 @@ const LoginPage = () => {
       window.location.href = '/';
     } else {
       alert('Tên người dùng hoặc mật khẩu không đúng');
-      sessionStorage.setItem('token', '1234567890');
     }
   };
 

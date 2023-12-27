@@ -36,8 +36,6 @@ const items = [
 
   getItem('Quản lý người dùng', 'sub3', <UserOutlined />, [
     getItem('Tất cả', 'user'),
-    getItem('Chờ  xác minh', 'pending_user'),
-    getItem('Đã xác minh', 'verificated_user'),
     //getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
   ]),
 

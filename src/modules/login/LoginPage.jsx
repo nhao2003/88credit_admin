@@ -9,7 +9,7 @@ const LoginPage = () => {
   const onFinish = (values) => {
     const { username, password } = values;
     if (username === 'admin' && password === 'admin') {
-      localStorage.setItem('token', '1234567890');
+      sessionStorage.setItem('token', '1234567890');
       window.location.href = '/';
     } else {
       alert('Tên người dùng hoặc mật khẩu không đúng');
@@ -43,7 +43,7 @@ const LoginPage = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%', backgroundColor: '#1E7B5F' }}>
+          <Button id='login-button' type="primary" htmlType="submit" style={{ width: '100%', backgroundColor: '#1E7B5F' }}>
             Đăng nhập
           </Button>
         </Form.Item>

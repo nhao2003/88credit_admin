@@ -214,7 +214,7 @@ const App = () => {
   return (
     <React.StrictMode>
       {
-       localStorage.getItem('token') ==='1234567890' ? (
+       sessionStorage.getItem('token') ==='1234567890' ? (
           <RouterProvider router={router}>
             <Routes />
           </RouterProvider>

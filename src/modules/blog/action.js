@@ -8,13 +8,23 @@ export async function action({ request, params }) {
     const formData = await request.formData();
     const type = formData.get('type');
     console.log('type: ', type);
+    const title = formData.get('title');
+    const description = formData.get('description');
+    const author = formData.get('author');
+    const thumbnail = formData.get('thumbnail');
+    const content = formData.get('content');
+    if (!title || !description || !author || !thumbnail || !content) {
+      alert('Vui lòng điền đầy đủ thông tin');
+      return null;
+    }
+
     if (type === 'create') {
       const body = {
-        title: formData.get('title'),
-        short_description: formData.get('description'),
-        author: formData.get('author'),
-        thumbnail: formData.get('thumbnail'),
-        content: formData.get('content'),
+        title,
+        short_description: description,
+        author,
+        thumbnail,
+        content,
       };
       console.log('body: ', body);
       const res = await ApiService.post({ url: 'blogs', data: body });
@@ -34,11 +44,11 @@ export async function action({ request, params }) {
       return null;
     } else if (type === 'edit') {
       const data = {
-        title: formData.get('title'),
-        short_description: formData.get('description'),
-        author: formData.get('author'),
-        thumbnail: formData.get('thumbnail'),
-        content: formData.get('content'),
+        title,
+        short_description: description,
+        author,
+        thumbnail,
+        content,
       };
 
       console.log('edit request', data);

@@ -18,7 +18,9 @@ import ApiService from '../../../service/ApiService';
 import Breadcrumbs from '../../../globalComponents/BreadCrumb/BreadCrumb';
 import { borrowingColumns, lendingColumns } from '../components/tableColumn';
 import { approvePost, rejectPost } from '../action';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the styles
+import { ToastContainer } from 'react-toastify';
 //function loader to call API
 export async function loader() {
   const response = await ApiService.get(
@@ -51,9 +53,9 @@ function PendingPost(props) {
       <Space size="middle">
         <Button
           onClick={(e) => {
+            handleApprovePost(record.id);
             e.stopPropagation();
-            setCurrentPost(record);
-            handleApprovePost();
+            // setCurrentPost(record);
           }}
           type="primary"
           name="id"
@@ -125,6 +127,7 @@ function PendingPost(props) {
           setRejectReason(null);
           setCurrentPost(null);
           console.log('res', currentPost);
+          toast.success('Từ chối bài đăng thành công');
           if (currentPost.type === 'lending') {
             setPostsLending(
               postsLending.filter((post) => post.id !== currentPost.id),
@@ -139,26 +142,23 @@ function PendingPost(props) {
       })
       .catch((err) => {
         console.log(err);
-        alert('Có lỗi xảy ra, vui lòng thử lại sau');
+        toast.error('Có lỗi xảy ra, vui lòng thử lại sau');
       });
   }
 
-  function handleApprovePost() {
-    approvePost(currentPost.id)
+  function handleApprovePost(id) {
+    approvePost(id)
       .then((res) => {
-        if (currentPost.type === 'lending') {
-          setPostsLending(
-            postsLending.filter((post) => post.id !== currentPost.id),
-          );
+        toast.success('Duyệt bài đăng thành công');
+        if (postsLending.find((post) => post.id === id)) {
+          setPostsLending(postsLending.filter((post) => post.id !== id));
         } else {
-          setPostsBorrowing(
-            postsBorrowing.filter((post) => post.id !== currentPost.id),
-          );
+          setPostsBorrowing(postsBorrowing.filter((post) => post.id !== id));
         }
       })
       .catch((err) => {
         console.log(err);
-        alert('Có lỗi xảy ra, vui lòng thử lại sau');
+        toast.error('Có lỗi xảy ra, vui lòng thử lại sau');
       });
   }
 
@@ -170,21 +170,11 @@ function PendingPost(props) {
         <Breadcrumbs></Breadcrumbs>
         <Row style={{ marginBottom: '16px' }}>
           <Col>
+            <ToastContainer />
+
             <Title level={3} style={{ margin: 0, padding: 0 }}>
               DS Bài đăng chờ duyệt
             </Title>
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: '12px' }}>
-          <Col>
-            <Search
-              placeholder="Nhập thông tin cần tìm..."
-              style={{
-                width: 500,
-              }}
-              onSearch={() => {}}
-              enterButton
-            />
           </Col>
         </Row>
         <Modal

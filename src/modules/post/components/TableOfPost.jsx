@@ -69,34 +69,44 @@ function PostTable(props) {
         />
 
         {Object.keys(item).length !== 0 && (
-         <PostDialog post={item} isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel} />
+          <>
+            <PostDialog
+              key={item.id}
+              post={item}
+              isModalOpen={isModalOpen}
+              handleOk={handleOk}
+              handleCancel={handleCancel}
+            />
+            <Modal
+              key={item.id}
+              title="Vui lòng nhập lý do từ chối bài đăng này"
+              open={isModalOpen1}
+              onOk={handleOk1}
+              onCancel={handleCancel1}
+              footer={(_, { OkBtn1, CancelBtn1 }) => (
+                <>
+                  <Button type="primary" icon={<CloseOutlined />} danger>
+                    Từ chối
+                  </Button>
+                </>
+              )}
+            >
+              <Form
+                key={item.id}
+                style={{ marginTop: '24px' }}
+                name="basic"
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 16 }}
+                initialValues={{ remember: true }}
+                autoComplete="off"
+              >
+                <Form.Item label="Lý do từ chối">
+                  <Input placeholder="Nhập lý do từ chối..." />
+                </Form.Item>
+              </Form>
+            </Modal>
+          </>
         )}
-        <Modal
-          title="Vui lòng nhập lý do từ chối bài đăng này"
-          open={isModalOpen1}
-          onOk={handleOk1}
-          onCancel={handleCancel1}
-          footer={(_, { OkBtn1, CancelBtn1 }) => (
-            <>
-              <Button type="primary" icon={<CloseOutlined />} danger>
-                Từ chối
-              </Button>
-            </>
-          )}
-        >
-          <Form
-            style={{ marginTop: '24px' }}
-            name="basic"
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            autoComplete="off"
-          >
-            <Form.Item label="Lý do từ chối">
-              <Input placeholder="Nhập lý do từ chối..." />
-            </Form.Item>
-          </Form>
-        </Modal>
       </Row>
     </div>
   );

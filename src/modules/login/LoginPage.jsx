@@ -1,23 +1,30 @@
-// src/components/LoginForm.js
 import React from 'react';
 import { Form, Input, Button, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the styles
+import { ToastContainer } from 'react-toastify';
 const { Title } = Typography;
-
 const LoginPage = () => {
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const { username, password } = values;
     if (username === 'admin' && password === 'admin') {
-      sessionStorage.setItem('token', '1234567890');
-      window.location.href = '/';
+      localStorage.setItem('token', '1234567890');
+      toast.success('Đăng nhập thành công');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+     window.location.href = '/';
     } else {
-      alert('Tên người dùng hoặc mật khẩu không đúng');
+      console.log('Login fail');
+      toast.error('Đăng nhập thất bại');
     }
   };
 
   return (
     <div style={{ maxWidth: '400px', margin: 'auto', marginTop: '50px' }}>
+      <ToastContainer 
+      className={'toast-container'}
+      id="toast-container"
+      /> {/* Add the ToastContainer component at the top-level */}
       <Title level={3} style={{ textAlign: 'center', color: '#1E7B5F' }}>
         Đăng nhập
       </Title>
@@ -43,7 +50,12 @@ const LoginPage = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button id='login-button' type="primary" htmlType="submit" style={{ width: '100%', backgroundColor: '#1E7B5F' }}>
+          <Button
+            id="login-button"
+            type="primary"
+            htmlType="submit"
+            style={{ width: '100%', backgroundColor: '#1E7B5F' }}
+          >
             Đăng nhập
           </Button>
         </Form.Item>

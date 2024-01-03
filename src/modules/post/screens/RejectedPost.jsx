@@ -39,8 +39,8 @@ export async function loader() {
       statusText: 'Not Found',
     });
   }
-  const postLending = posts.filter((post) => true);
-  const postBorrowing = posts.filter((post) => false);
+  const postLending = posts.filter((post) => post.type === 'lending');
+  const postBorrowing = posts.filter((post) => post.type === 'borrowing');
   console.log('lease', postLending);
   console.log('no lease', postBorrowing);
   return { postLending, postBorrowing };
